@@ -61,6 +61,11 @@ String _loginHTML() => '''
         <input type="password" id="password" name="password" required><br><br>
         <button type="submit">Login</button>
     </form>
+
+  <br>
+  <div>
+    <a href="/signup">OR Sign up</a>
+   </div>
 </body>
 </html>
 
