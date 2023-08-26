@@ -28,7 +28,7 @@ FROM scratch
 COPY --from=build /runtime/ /
 COPY --from=build /app/build/bin/server /app/bin/
 # Uncomment the following line if you are serving static files.
-COPY --from=build /app/build/public /public/
+# COPY --from=build /app/build/public /public/
 
 # Start the server.
 CMD ["/app/bin/server"]
