@@ -39,10 +39,6 @@ class _UserRepoImpl implements UserRepository {
 
   @override
   Future<UserModel?> getUserWithToken(String token) async {
-    print([
-      _tokens,
-      token,
-    ]);
     return _tokens[token.trim()];
   }
 }

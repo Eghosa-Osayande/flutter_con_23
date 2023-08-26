@@ -7,10 +7,12 @@ import 'package:my_project/user_repository/user_repository.dart';
 class _PostRepoImpl implements PostRepository {
   final Map<String, PostModel> _posts = {
     '1': PostModel(
+      id: '1',
       title: 'Post 1',
       body: 'Post Body of Post 1',
     ),
     '2': PostModel(
+      id: '2',
       title: 'Post 2',
       body: 'Post Body of Post 2',
     ),
