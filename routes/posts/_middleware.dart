@@ -1,7 +1,7 @@
 import 'package:dart_frog/dart_frog.dart';
 
 Handler middleware(Handler handler) {
-  return (context) async {
+  return (RequestContext context) async {
     // Execute code before request is handled.
 
     // Forward the request to the respective handler.
@@ -11,5 +11,21 @@ Handler middleware(Handler handler) {
 
     // Return a response.
     return response;
-  };
+  }.use(
+    (handler) {
+      return (context) async {
+        print('Executes second');
+        final response = await handler(context);
+        return response;
+      };
+    },
+  ).use(
+    (handler) {
+      print('Executes first');
+      return (context) async {
+        final response = await handler(context);
+        return response;
+      };
+    },
+  );
 }
