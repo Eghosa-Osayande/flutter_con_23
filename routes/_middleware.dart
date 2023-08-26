@@ -8,7 +8,8 @@ class _UserRepoImpl implements UserRepository {
       passWord: '1',
     ),
   };
-  
+  final Map<String, UserModel> _tokens = {};
+
   @override
   Future<UserModel> createUser(String name, String password) async {
     return _users.putIfAbsent(
@@ -22,7 +23,27 @@ class _UserRepoImpl implements UserRepository {
 
   @override
   Future<UserModel?> getUser(String name, String password) async {
-    return _users[name];
+    var user = _users[name];
+    if (user case var user?) {
+      return user.passWord == password ? user : null;
+    }
+    return null;
+  }
+
+  @override
+  Future<String> login(UserModel user) async {
+    final token = 'Bearer ${user.name}${DateTime.now().microsecondsSinceEpoch}';
+    _tokens[token] = user;
+    return token;
+  }
+
+  @override
+  Future<UserModel?> getUserWithToken(String token) async {
+    print([
+      _tokens,
+      token,
+    ]);
+    return _tokens[token.trim()];
   }
 }
 

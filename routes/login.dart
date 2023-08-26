@@ -17,11 +17,18 @@ Future<Response> onRequest(RequestContext context) async {
         fields['password']!,
       );
 
-      final user = await context.read<UserRepository>().getUser(name, password);
+      final userRepo = context.read<UserRepository>();
+      final existingUser = await userRepo.getUser(name, password);
 
-      if (user case var existingUser?) {
-        return Response(
-          body: 'WELCOME!!!\nYou are ${existingUser.name}',
+      if (existingUser !=null) {
+        final authToken = await userRepo.login(existingUser);
+        return Response.movedPermanently(
+          location: '/posts',
+          headers: {
+            HttpHeaders.setCookieHeader: [
+              'authToken=$authToken; Path=/; Max-Age=84000',
+            ],
+          },
         );
       }
 
@@ -61,9 +68,8 @@ String _loginHTML() => '''
         <input type="password" id="password" name="password" required><br><br>
         <button type="submit">Login</button>
     </form>
-
-  <br>
-  <div>
+    <br>
+    <div>
     <a href="/signup">OR Sign up</a>
    </div>
 </body>

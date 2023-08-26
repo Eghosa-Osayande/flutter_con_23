@@ -14,4 +14,8 @@ abstract class UserRepository {
   Future<UserModel?> getUser(String name, String password);
 
   Future<UserModel> createUser(String name, String password);
+
+  Future<UserModel?> getUserWithToken(String token);
+  
+  Future<String> login(UserModel user);
 }
